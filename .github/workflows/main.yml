@@ -1,0 +1,46 @@
+name: Unzip Mass Animator
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unzip-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # This step automatically looks for the zip file in multiple common places
+      - name: Unzip Mass Animator
+        run: |
+          if [ -f "mass-animator/mass-animator.zip" ]; then
+            echo "Found mass-animator.zip inside mass-animator folder."
+            unzip mass-animator/mass-animator.zip -d mass-animator
+          elif [ -f "mass animator/mass animator.zip" ]; then
+            echo "Found mass animator.zip inside mass animator folder."
+            unzip "mass animator/mass animator.zip" -d "mass animator"
+          elif [ -f "mass-animator.zip" ]; then
+            echo "Found mass-animator.zip in root."
+            unzip mass-animator.zip -d mass-animator
+          elif [ -f "mass animator.zip" ]; then
+            echo "Found mass animator.zip in root."
+            unzip "mass animator.zip" -d "mass-animator"
+          else
+            echo "Error: Could not find mass-animator.zip or mass animator.zip"
+            exit 1
+          fi
+
+      # Commits the unzipped files back to your repository
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Automated unzip of mass animator" || echo "No changes to commit"
+          git push
