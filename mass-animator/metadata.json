@@ -1,0 +1,6 @@
+{
+  "name": "Mass Animator",
+  "description": "An interactive physics engine that animates mass behaviors (springs, densities, relativity, rockets) and displays step-by-step mathematical solutions in real time.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
